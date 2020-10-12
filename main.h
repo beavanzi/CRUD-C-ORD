@@ -10,6 +10,6 @@
 #define REMOCAO 114
 
 //GLOBAIS
-FILE *arq;
+FILE *arquivo_dat;
 
 #endif

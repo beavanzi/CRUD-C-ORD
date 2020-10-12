@@ -6,12 +6,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "menu.h"
 #include "read_record.h"
 #include "remove.h"
 #include "search.h"
-
-//FUNÇÕES
-void menu(int, char, int);  // x é o número que está atribuído em controle, str é o buffer, tamanho_registro é o strlen da buffer2, head é a cabeça da LED do começo do arquivo
 
 int main(int argc, char **argv) {
     //VARIAVEIS PARA A IMPORTAÇÃO
@@ -37,12 +35,12 @@ int main(int argc, char **argv) {
 
     if (strcmp(argv[1], "-i") == 0) {  //acessando a funcionalidade de implementação
 
-        arq = fopen("dados.dat", "wb");  //abertura e criação do arquivo para escrever os livros com seu tamanho de registro
-        aux = fopen(argv[2], "r");       //abertura do arquivo livros.txt para coletar os registros
+        arquivo_dat = fopen("dados.dat", "wb");  //abertura e criação do arquivo para escrever os livros com seu tamanho de registro
+        aux = fopen(argv[2], "r");               //abertura do arquivo livros.txt para coletar os registros
 
         printf("Modo de importacao ativado ... nome do arquivo = %s\n", argv[2]);
 
-        if (arq == NULL) {
+        if (arquivo_dat == NULL) {
             printf("\nErro na abertura do arquivo -- programa finalizado.\n");
             system("pause");
             exit(1);
@@ -50,11 +48,11 @@ int main(int argc, char **argv) {
 
         tam_reg = leia_registro(aux, buffer, TAM_MAX_REG);  //faz a leitura do registro de livros.txt, retornando seu tamanho em tam_reg e o registro em buffer
 
-        fwrite(&head, sizeof(int), 1, arq);  //escreve o cabeçalho de dados.dat com -1 na LED de espaços vazios
+        fwrite(&head, sizeof(int), 1, arquivo_dat);  //escreve o cabeçalho de dados.dat com -1 na LED de espaços vazios
 
         while (tam_reg > 0) {
-            fwrite(&tam_reg, sizeof(short), 1, arq);     //escreve o tamanho do registro a ser inserido
-            fwrite(buffer, sizeof(char), tam_reg, arq);  //escreve o registro inserido
+            fwrite(&tam_reg, sizeof(short), 1, arquivo_dat);     //escreve o tamanho do registro a ser inserido
+            fwrite(buffer, sizeof(char), tam_reg, arquivo_dat);  //escreve o registro inserido
 
             tam_reg = leia_registro(aux, buffer, TAM_MAX_REG);
             num_reg++;  //conta quantos registros foram coletados
@@ -66,8 +64,8 @@ int main(int argc, char **argv) {
             printf("Erro na operação.\n");
         }
 
-        fclose(aux);  //fecha o arquivo livros.txt
-        fclose(arq);  //fecha o arquivo dados.dat
+        fclose(aux);          //fecha o arquivo livros.txt
+        fclose(arquivo_dat);  //fecha o arquivo dados.dat
     } else if (strcmp(argv[1], "-e") == 0) {
         printf("Modo de execucao de operacoes ativado ... nome do arquivo = %s\n", argv[2]);
 
@@ -83,7 +81,7 @@ int main(int argc, char **argv) {
         while (tam_reg > 0) {
             switch (buffer2[0]) {
                 case BUSCA:
-                    controle = 1;
+                    menu(1, buffer2, tam_reg);
                     break;
                 case REMOCAO:
                     controle = 2;
