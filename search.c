@@ -17,8 +17,7 @@ int busca(int chave, int *posicao_de_seek) {
     // rewind(arquivo_dat);              // volta o ponteiro de L/E no byte 0 do arquivo, pra começar a ler dnv
     fseek(arquivo_dat, 4, SEEK_SET);  // movendo o ponteiro de L/E em 4 bytes a partir do começo do arquivo p/ pular a LED (não queremos ler ela)
     while (achou == 0) {
-        posicao_de_leitura = ftell(arquivo_dat);
-        printf("%d", posicao_de_leitura);                   //mostra em qual byte (do arquivo) está sendo realizada a leitura
+        posicao_de_leitura = ftell(arquivo_dat);            //mostra em qual byte (do arquivo) está sendo realizada a leitura
         fread(&tam_reg, sizeof(short), 1, arquivo_dat);     // le o tamanho do registro de dentro do arquivo e armazena o valor na tam_reg
         fread(buffer, sizeof(char), tam_reg, arquivo_dat);  // le do arquivo arq "tamanho" numero de elementos, e armazena na string buffer
 
