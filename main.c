@@ -69,7 +69,7 @@ int main(int argc, char **argv) {
     } else if (strcmp(argv[1], "-e") == 0) {
         printf("Modo de execucao de operacoes ativado ... nome do arquivo = %s\n", argv[2]);
 
-        if ((aux2 = fopen("dados.dat", "rb")) == NULL) {
+        if ((arquivo_dat = fopen("dados.dat", "rb")) == NULL) {
             printf("Arquivo dados.dat não existe, programa finalizado.\n");
             system("pause");
             exit(1);

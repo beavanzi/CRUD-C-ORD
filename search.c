@@ -14,7 +14,7 @@ int busca(int chave, int *posicao_de_seek) {
     char buffer[TAM_MAX_REG];
     int posicao_de_leitura;
 
-    rewind(arquivo_dat);              // volta o ponteiro de L/E no byte 0 do arquivo, pra começar a ler dnv
+    // rewind(arquivo_dat);              // volta o ponteiro de L/E no byte 0 do arquivo, pra começar a ler dnv
     fseek(arquivo_dat, 4, SEEK_SET);  // movendo o ponteiro de L/E em 4 bytes a partir do começo do arquivo p/ pular a LED (não queremos ler ela)
     while (achou == 0) {
         posicao_de_leitura = ftell(arquivo_dat);
