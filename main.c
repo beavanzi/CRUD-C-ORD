@@ -12,10 +12,11 @@
 #include "search.h"
 
 int main(int argc, char **argv) {
+    LEDHead = -1;
+
     //VARIAVEIS PARA A IMPORTAÇÃO
     FILE *flivros;  //para receber e ler o arquivo livros.txt
     short tam_reg = 0;
-    int head = -1;  //cabeçalho
     int num_reg = 0;
     char buffer_livros[TAM_MAX_REG];
 
@@ -47,7 +48,7 @@ int main(int argc, char **argv) {
 
         tam_reg = leia_registro(flivros, buffer_livros, TAM_MAX_REG);  //faz a leitura do registro de livros.txt, retornando seu tamanho em tam_reg e o registro em buffer
 
-        fwrite(&head, sizeof(int), 1, arquivo_dat);  //escreve o cabeçalho de dados.dat com -1 na LED de espaços vazios
+        fwrite(&LEDHead, sizeof(int), 1, arquivo_dat);  //escreve o cabeçalho de dados.dat com -1 na LED de espaços vazios
 
         while (tam_reg > 0) {
             fwrite(&tam_reg, sizeof(short), 1, arquivo_dat);            //escreve o tamanho do registro a ser inserido
@@ -68,7 +69,7 @@ int main(int argc, char **argv) {
     } else if (strcmp(argv[1], "-e") == 0) {
         printf("Modo de execucao de operacoes ativado ... nome do arquivo = %s\n", argv[2]);
 
-        if ((arquivo_dat = fopen("dados.dat", "rb")) == NULL) {
+        if ((arquivo_dat = fopen("dados.dat", "r+b")) == NULL) {
             printf("Arquivo dados.dat não existe, programa finalizado.\n");
             system("pause");
             exit(1);
