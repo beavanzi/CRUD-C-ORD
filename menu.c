@@ -6,8 +6,7 @@
 #include "search.h"
 
 void menu(int x, char *str, int tamanho_chave) {  // x é o número que está atribuído em controle, str é o buffer, tamanho_registro é o strlen da buffer2, head é a cabeça da LED do começo do arquivo
-    char *num_reg;
-    short *tam_reg;
+    short tam_reg;
     int i = 0;
     int achou;
     int chave = 0;  // número da frente de cada registro
@@ -24,14 +23,14 @@ void menu(int x, char *str, int tamanho_chave) {  // x é o número que está at
 
     switch (x) {
         case 1:  //operação de busca
-            achou = busca(chave, &posicao_de_seek, tam_reg);
+            achou = busca(chave, &posicao_de_seek, &tam_reg);
             if (!achou) {
                 printf("\n\nBusca pelo registro de chave '%d'\n", chave);
                 printf("Erro: registro nao encontrado!");
             }
             break;
-        case 2:                                                  //operação de remoção
-            if (busca(chave, &posicao_de_seek, tam_reg) == 1) {  //verificando se o registro existe, se existir então procedemos com a remoção
+        case 2: {                                                 //operação de remoção
+            if (busca(chave, &posicao_de_seek, &tam_reg) == 1) {  //verificando se o registro existe, se existir então procedemos com a remoção
                 remocao(posicao_de_seek);
                 printf("\n\nRemocao do registro de chave '%d'\n", chave);
                 printf("Registro removido! (%d bytes)\n", tam_reg);
@@ -39,8 +38,9 @@ void menu(int x, char *str, int tamanho_chave) {  // x é o número que está at
             } else {
                 printf("\n\nRemocao do registro de chave '%d'\n", chave);
                 printf("Registro nao encontrado!\n");
-            }
+            };
             break;
+        }
         default:
             printf("Erro");
             break;

@@ -93,6 +93,7 @@ int main(int argc, char **argv) {
                     printf("Erro na leitura das operações do modo exportação.");
                     break;
             }
+
             tam_reg = leia_registro(foperacoes, buffer_operacoes, TAM_MAX_REG);
         }
     } else {
