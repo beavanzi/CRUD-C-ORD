@@ -11,6 +11,5 @@
 
 //GLOBAIS
 FILE *arquivo_dat;
-int LEDHead;
 
 #endif

@@ -5,7 +5,7 @@
 #include "main.h"
 
 //A função busca fará a leitura da chave dos registros, retornará 0 se não encontrar o registro, 1 se encontrar
-int busca(int chave, int *posicao_de_seek, short *tam_reg) {
+int busca(int chave, int *posicao_de_seek, short *tam_reg, int isRemove) {
     int achou = 0;
     int key;  //será utilizada na conversão da aux para inteiro
     char aux[TAM_MAX_REG];
@@ -13,7 +13,8 @@ int busca(int chave, int *posicao_de_seek, short *tam_reg) {
     char buffer[TAM_MAX_REG];
     int posicao_de_leitura;
 
-    // rewind(arquivo_dat);              // volta o ponteiro de L/E no byte 0 do arquivo, pra começar a ler dnv
+    if (!isRemove) printf("\n\nBusca pelo registro de chave '%d'\n", chave);
+
     fseek(arquivo_dat, 4, SEEK_SET);  // movendo o ponteiro de L/E em 4 bytes a partir do começo do arquivo p/ pular a LED (não queremos ler ela)
     while ((achou == 0) && (!feof(arquivo_dat))) {
         posicao_de_leitura = ftell(arquivo_dat);             //mostra em qual byte (do arquivo) está sendo realizada a leitura
@@ -28,9 +29,7 @@ int busca(int chave, int *posicao_de_seek, short *tam_reg) {
 
             if (chave == key) {
                 achou = 1;
-                printf("\n\nBusca pelo registro de chave '%d'\n", key);
-                // tam_reg = tam_reg + 4;  //+4 pois o fseek não está registrando os 4 bytes do rrn no tamanho do registro
-                printf("%s %d bytes", buffer, *tam_reg);
+                if (!isRemove) printf("%s %d bytes", buffer, *tam_reg);
                 *posicao_de_seek = posicao_de_leitura;  //posicao_de_seek recebe a posicao do registro buscado
             }
         }
