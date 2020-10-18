@@ -7,6 +7,7 @@
 #include <string.h>
 
 #include "import.h"
+#include "insert.h"
 #include "read_record.h"
 #include "remove.h"
 #include "search.h"
@@ -22,6 +23,18 @@ int buscarChave(char *str, int tamanho_chave) {
     chave_da_operacao[i - 2] = '\0';
 
     return chave = atoi(chave_da_operacao);
+}
+
+const char *buscarRegistro(const char *str, int tamanho_chave) {
+    static char reg_da_operacao[TAM_MAX_REG];
+    int i;
+
+    for (i = 2; i < tamanho_chave; i++) {
+        reg_da_operacao[i - 2] = str[i];
+    }
+    reg_da_operacao[i - 2] = '\0';
+
+    return reg_da_operacao;
 }
 
 int main(int argc, char **argv) {
@@ -49,7 +62,7 @@ int main(int argc, char **argv) {
         short tam_reg;
         int chave = 0;
         int posicao_de_seek = 0;
-        char chave_da_operacao[TAM_MAX_REG];
+        char reg[TAM_MAX_REG];
 
         printf("Modo de execucao de operacoes ativado ... nome do arquivo = %s\n", argv[2]);
 
@@ -63,13 +76,13 @@ int main(int argc, char **argv) {
 
         tam_reg_operacoes = leia_registro(foperacoes, buffer_operacoes, TAM_MAX_REG);  //armazena o tamanho do primeiro registro de operacoes.txt
         while (tam_reg_operacoes > 0) {
-            chave = buscarChave(buffer_operacoes, tam_reg_operacoes);
-
             switch (buffer_operacoes[0]) {
                 case BUSCA:
+                    chave = buscarChave(buffer_operacoes, tam_reg_operacoes);
                     if (!(busca(chave, &posicao_de_seek, &tam_reg, 0))) printf("Erro: registro nao encontrado!");
                     break;
                 case REMOCAO:
+                    chave = buscarChave(buffer_operacoes, tam_reg_operacoes);
                     printf("\n\nRemocao do registro de chave %d\n", chave);
 
                     if (busca(chave, &posicao_de_seek, &tam_reg, 1)) {  //verificando se o registro existe, se existir então procedemos com a remoção
@@ -80,7 +93,9 @@ int main(int argc, char **argv) {
                     }
                     break;
                 case INSERCAO:
-                    controle = 3;
+                    strcpy(reg, buscarRegistro(buffer_operacoes, tam_reg_operacoes));
+                    tam_reg = tam_reg_operacoes - 2;
+                    inserir(reg, &tam_reg);
                     break;
                 default:
                     printf("Erro na leitura das operações do modo exportação.");

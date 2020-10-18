@@ -2,7 +2,7 @@
 
 #include "main.h"
 
-void remocao(int posicao_de_seek) {
+void remocao(int posicao_de_seek, int *LEDHead) {
     short tam_reg = 0;
     int num = 0, num2 = 0;
     char asterisco = '*';

@@ -5,7 +5,6 @@
 #include "read_record.h"
 
 void importacao(char **argv, int LEDHead) {
-    //VARIAVEIS PARA A IMPORTAÇÃO
     FILE *flivros;  //para receber e ler o arquivo livros.txt
     short tam_reg_operacoes = 0;
     int num_reg = 0;
